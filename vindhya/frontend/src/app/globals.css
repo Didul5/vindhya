@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Light theme (default) ── */
+:root {
+  --bg: #f0f2ff;
+  --surface: #ffffff;
+  --surface2: rgba(99,102,241,0.06);
+  --border: rgba(99,102,241,0.15);
+  --border2: rgba(0,0,0,0.07);
+  --text: #1e1b4b;
+  --text2: #4c4f7a;
+  --text3: #8b8fbe;
+  --shadow: 0 4px 24px rgba(99,102,241,0.12);
+  --shadow-sm: 0 2px 10px rgba(99,102,241,0.08);
+  --sidebar-bg: #ffffff;
+}
+
+/* ── Dark theme ── */
+.dark {
+  --bg: #0d0d1a;
+  --surface: rgba(255,255,255,0.05);
+  --surface2: rgba(255,255,255,0.03);
+  --border: rgba(255,255,255,0.09);
+  --border2: rgba(255,255,255,0.05);
+  --text: #e8e8ff;
+  --text2: #9898cc;
+  --text3: #5a5a8a;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+  --sidebar-bg: rgba(15,15,30,0.98);
+}
+
+* { box-sizing: border-box; }
+
+html { transition: none; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+/* ── Background page gradient ── */
+.page-bg {
+  background: linear-gradient(145deg, #eef0ff 0%, #faf5ff 50%, #eff9ff 100%);
+  min-height: 100vh;
+}
+.dark .page-bg { background: linear-gradient(145deg, #0d0d1a 0%, #13132b 50%, #0d1823 100%); }
+
+/* ── Cards ── */
+.glass {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.glass-strong {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+/* ── Gradient text ── */
+.gradient-text {
+  background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Shimmer ── */
+.shimmer {
+  background: linear-gradient(90deg, var(--surface2) 25%, var(--border) 50%, var(--surface2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(99,102,241,0.3); border-radius: 4px; }
+
+/* ── Input ── */
+.input-field {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 14px;
+  color: var(--text);
+  width: 100%;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.input-field::placeholder { color: var(--text3); }
+.input-field:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+}
+.input-dark { @apply input-field; }
+
+/* Select styles */
+select.input-field, select.input-dark {
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+.dark select option { background: #1a1a3e; color: #e8e8ff; }
+
+/* ── Buttons ── */
+.btn-primary {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 22px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 15px rgba(99,102,241,0.35);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(99,102,241,0.5);
+}
+.btn-primary:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.btn-secondary {
+  background: var(--surface2);
+  color: var(--text2);
+  font-weight: 500;
+  font-size: 14px;
+  padding: 10px 22px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-secondary:hover { background: var(--border); color: var(--text); }
+
+/* ── Stat badge ── */
+.stat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+/* ── Prose ── */
+.prose-dark { color: var(--text2); font-size: 14px; line-height: 1.75; }
+.prose-dark strong { color: var(--text); font-weight: 600; }
+.prose-dark code {
+  background: rgba(99,102,241,0.12);
+  border-radius: 6px;
+  padding: 2px 7px;
+  color: #6366f1;
+  font-size: 12px;
+  font-family: 'Fira Code', monospace;
+}
+.prose-dark ul { list-style: disc; padding-left: 20px; margin-top: 8px; }
+.prose-dark ol { list-style: decimal; padding-left: 20px; margin-top: 8px; }
+.prose-dark h3 { color: var(--text); font-weight: 600; margin: 12px 0 4px; }
+.prose-dark p + p { margin-top: 10px; }
+
+/* ── Light-mode text overrides ──────────────────────────────────
+   Many components use hardcoded dark-theme Tailwind text classes.
+   Override them in light mode using :root so they read properly.
+   Dark mode inherits original values (no override needed).
+──────────────────────────────────────────────────────────────── */
+:root .text-white          { color: #1e1b4b !important; }
+:root .text-slate-50       { color: #1e1b4b !important; }
+:root .text-slate-100      { color: #1e1b4b !important; }
+:root .text-slate-200      { color: #2d2b5e !important; }
+:root .text-slate-300      { color: #4c4f7a !important; }
+:root .text-slate-400      { color: #6366a0 !important; }
+:root .text-slate-500      { color: #8b8fbe !important; }
+:root .text-slate-600      { color: #a0a4cc !important; }
+
+/* Backgrounds — light mode */
+:root .bg-white\/3,
+:root .bg-white\/5,
+:root .bg-white\/7,
+:root .bg-white\/8,
+:root .bg-white\/10        { background-color: rgba(99,102,241,0.05) !important; }
+:root .border-white\/5,
+:root .border-white\/8,
+:root .border-white\/10,
+:root .border-white\/15,
+:root .border-white\/20    { border-color: rgba(99,102,241,0.15) !important; }
+
+/* Hover state overrides — light mode */
+:root .hover\:bg-white\/3:hover,
+:root .hover\:bg-white\/5:hover  { background-color: rgba(99,102,241,0.08) !important; }
+:root .hover\:border-white\/20:hover { border-color: rgba(99,102,241,0.25) !important; }
+
+/* Auth page backgrounds */
+:root .bg-hero-gradient    { background: linear-gradient(145deg, #eef0ff 0%, #faf5ff 50%, #eff9ff 100%) !important; }
+
+/* ── Animations ── */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
