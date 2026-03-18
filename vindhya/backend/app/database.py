@@ -111,8 +111,19 @@ class Progress(Base):
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
 
 
-# DB engine setup
-engine = create_async_engine(settings.database_url, echo=False, pool_size=10, max_overflow=20)
+# DB engine setup — use SSL for remote (Supabase) connections
+_db_url = settings.database_url
+_is_remote = "localhost" not in _db_url and "127.0.0.1" not in _db_url
+_connect_args = {"ssl": "require"} if _is_remote else {}
+
+engine = create_async_engine(
+    _db_url,
+    echo=False,
+    pool_size=5,
+    max_overflow=10,
+    pool_pre_ping=True,
+    connect_args=_connect_args,
+)
 AsyncSessionLocal = async_sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
 
 

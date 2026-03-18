@@ -1,6 +1,9 @@
 import os
+import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
+
+logger = logging.getLogger("vindhya")
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from app.database import init_db
@@ -13,9 +16,16 @@ settings = get_settings()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup: initialize DB and preload embedding model
-    await init_db()
-    from app.embeddings import get_model
-    get_model()  # warm up — downloads model if not cached
+    try:
+        await init_db()
+        logger.info("Database initialized successfully")
+    except Exception as e:
+        logger.error(f"Database init failed: {e} — app will start but DB calls may fail")
+    try:
+        from app.embeddings import get_model
+        get_model()  # warm up — downloads model if not cached
+    except Exception as e:
+        logger.error(f"Embedding model load failed: {e}")
     os.makedirs(settings.upload_dir, exist_ok=True)
     yield
     # Shutdown: nothing special needed
@@ -30,7 +40,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://*.vercel.app"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
